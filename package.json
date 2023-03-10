@@ -9,13 +9,50 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
+    "@react-native-async-storage/async-storage": "^1.17.11",
+    "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/slider": "^4.4.2",
+    "@react-native-firebase/app": "^17.3.0",
+    "@react-native-firebase/messaging": "^17.3.0",
+    "@react-native-picker/picker": "^2.4.8",
+    "@react-navigation/bottom-tabs": "^6.5.3",
+    "@react-navigation/material-bottom-tabs": "^6.2.11",
+    "@react-navigation/native": "^6.1.2",
+    "@react-navigation/native-stack": "^6.9.8",
+    "@rneui/base": "^4.0.0-rc.7",
+    "@rneui/themed": "^4.0.0-rc.7",
+    "add": "^2.0.6",
+    "axios": "^1.2.6",
+    "dotenv": "^16.0.3",
     "expo": "~47.0.12",
+    "expo-device": "^5.2.1",
+    "expo-linear-gradient": "^12.0.1",
+    "expo-notifications": "~0.17.0",
     "expo-status-bar": "~1.4.2",
+    "jwt-decode": "^3.1.2",
+    "lottie-react-native": "^5.1.5",
+    "moment": "^2.29.4",
+    "nativewind": "^2.0.11",
     "react": "18.1.0",
-    "react-native": "0.70.5"
+    "react-native": "0.70.5",
+    "react-native-elements": "^3.4.3",
+    "react-native-gifted-chat": "^1.1.1",
+    "react-native-image-picker": "^5.1.0",
+    "react-native-paper": "^5.1.4",
+    "react-native-render-html": "^6.3.4",
+    "react-native-safe-area-context": "4.4.1",
+    "react-native-screens": "~3.18.0",
+    "react-native-select-dropdown": "^3.2.1",
+    "react-native-star-rating": "^1.1.0",
+    "react-native-storage": "^1.0.1",
+    "react-native-svg": "^13.8.0",
+    "react-native-vector-icons": "^9.2.0",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "tailwindcss": "^3.2.4"
   },
   "private": true
 }

@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -24,10 +24,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.doancoso3.app"
     },
+    "username": "2k3bin",
+    "password": "Binh22012003",
+    "accessToken": "qWObZtwmJ8VqbP2-IAkCw1kx6IZILiw9qDjqpCUx",
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "854e7a2a-5a21-4068-9f61-a10d4a9b4608"
+      }
     }
   }
 }
