@@ -7,6 +7,7 @@ import { Authorization } from '../context/Authorization';
 import axios from "../axios";
 import { LinearGradient } from 'expo-linear-gradient';
 import LottieView from 'lottie-react-native';
+import { FlatList } from 'react-native';
 
 
 
@@ -41,7 +42,8 @@ const SpecialtyScreen = ({ navigation, route }) => {
         
         let getAllProvince = await axios.get("/api/allcode?type=PROVINCE" );
         
-        setProvince(getAllProvince.data.data);
+        setProvince(getAllProvince.data.data)
+        ;
         
     }
     useEffect(() => {
@@ -75,14 +77,14 @@ const SpecialtyScreen = ({ navigation, route }) => {
         </TouchableOpacity> */}
         <LottieView
         source={{
-          uri: 'https://assets6.lottiefiles.com/private_files/lf30_tul1qoqd.json',
+          uri: 'https://assets2.lottiefiles.com/packages/lf20_2ZKqKUm2Jm.json',
         }}
         autoPlay
         loop={true}
         speed={0.5}
         style={{
-          width: 250,
-          height: 250,
+          width: 300,
+          height: 300,
           alignSelf: 'center',
           textAlign: 'center',
 
@@ -146,7 +148,7 @@ const SpecialtyScreen = ({ navigation, route }) => {
           }
         </Picker>
       <View style={styles.doctorList}>
-        {filteredDoctors.map(doctor => (
+        {/* {filteredDoctors.map(doctor => (
           <TouchableOpacity key={doctor.id} style={styles.doctorCard}
           onPress={() => navigation.navigate('Doctor', {
             doctor: doctor,
@@ -162,7 +164,28 @@ const SpecialtyScreen = ({ navigation, route }) => {
               <Text style={styles.doctorLocation}>{doctor.provinceData.valueVi}</Text>
             </View>
           </TouchableOpacity>
-        ))}
+        ))} */}
+        <FlatList
+          data={filteredDoctors}
+          renderItem={({ item }) => (
+            <TouchableOpacity key={item.id} style={styles.doctorCard}
+            onPress={() => navigation.navigate('Doctor', {
+              doctor: item,
+              name: "Bác sĩ "+ item.userData.lastName + " " +item.userData.firstName,
+            })}
+            >
+              <Image source={
+                  {uri: item.userData.image}
+              } style={styles.doctorImage} />
+              <View style={styles.doctorInfo}>
+                <Text style={styles.doctorName}>{item.userData.lastName + " " +item.userData.firstName}</Text>
+                <Text style={styles.doctorSpecialty}>{item.specialtyData.name}</Text>
+                <Text style={styles.doctorLocation}>{item.provinceData.valueVi}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id}
+        />
       </View>
       </LinearGradient>
       </ImageBackground>

@@ -3,11 +3,11 @@ import _ from 'lodash';
 // import config from './config';
 
 const instance = axios.create({
-    baseURL: 'http://192.168.1.30:8080/', //ở nhà
-    // baseURL: 'http://192.168.43.74:8080/', //wifi đt
-    // baseURL: 'http://192.168.2.156:8080/'
-    // withCredentials: true
-    // baseURL: 'http://10.50.72.49:8080/'
+    // baseURL: 'http://192.168.1.30:8080/', //ở nhà
+    // baseURL: 'http://192.168.2.153:8080/', //ở trường
+    // baseURL: 'http://10.23.12.52:8080/'
+    baseURL: 'http://192.168.2.153:8080/'
+
 });
 instance.interceptors.response.use(
     (response) => {

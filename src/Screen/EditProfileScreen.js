@@ -19,7 +19,14 @@ const PersonalInfo = () => {
 
   let getData = async() => {
     let data = await axios.get('/api/get-all-users?id=' + user.id);
-    console.log(data.data);
+    setFirstName(data.data.firstName);
+    setLastName(data.data.lastName);
+    setGender(data.data.gender);
+    setPhoneNumber(data.data.phoneNumber);
+    setEmail(data.data.email);
+    setAddress(data.data.address);
+    setAvatar(data.data.image);
+    
   }
   useEffect(() => {
     getData();

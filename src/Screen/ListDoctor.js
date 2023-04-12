@@ -1,29 +1,28 @@
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
 export default function ListDoctor({ doctors, navigation }) {
-    return (
-        <SafeAreaView>
-           <View style={styles.container}>
-            {
-                doctors && doctors.slice(0, 4).map((item, index) => {
-                    return (
-                        <TouchableOpacity key={index} style={styles.doctorCard} onPress={() => {
-                                navigation.navigate("Doctor", {
-                                    doctor: item
-                                })
-                            }}>
-                            <Image style={styles.avatar} source={{ uri: item.userData.image }} />                      
-                                <Text style={styles.name}>{item.userData.lastName + " " + item.userData.firstName}</Text>
-                                <Text style={styles.specialty}>
-                                  
-                                  {item.specialtyData.name}</Text>                    
-                        </TouchableOpacity>
-                    )
+  return (
+    <SafeAreaView>
+      <View style={styles.container}>
+        {
+          doctors && doctors.slice(0, 4).map((item, index) => {
+            return (
+              <TouchableOpacity key={index} style={styles.doctorCard} onPress={() => {
+                navigation.navigate("Doctor", {
+                  doctor: item
                 })
-            }
-            </View> 
-        </SafeAreaView>
-    )
+              }}>
+                <Image style={styles.avatar} source={{ uri: item.userData.image }} />
+                <Text style={styles.name}>{item.userData.lastName + " " + item.userData.firstName}</Text>
+                <Text style={styles.specialty}>
+                  {item.specialtyData.name}</Text>
+              </TouchableOpacity>
+            )
+          })
+        }
+      </View>
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({

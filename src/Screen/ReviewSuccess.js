@@ -36,11 +36,9 @@ const ReviewSuccess = ({navigation}) => {
 
     >
        <LottieView
-        source={{
-          uri: 'https://assets10.lottiefiles.com/packages/lf20_qq6gioyz.json',
-        }}
+        source={require('../../assets/lottie/ReviewS.json')}
         autoPlay
-        loop={false}
+        loop={true}
         speed={0.5}
         style={{
           width: 400,
@@ -49,11 +47,9 @@ const ReviewSuccess = ({navigation}) => {
         }}
       /> 
       <LottieView
-        source={{
-          uri: 'https://assets10.lottiefiles.com/packages/lf20_gnr00f0c.json',
-        }}
+        source={require('../../assets/lottie/ReviewS2.json')}
         autoPlay
-        loop={false}
+        loop={true}
         speed={0.5}
         style={{
           width: 500,

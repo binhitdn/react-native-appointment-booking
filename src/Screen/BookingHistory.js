@@ -2,6 +2,9 @@ import { Image } from '@rneui/base';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import LottieView from 'lottie-react-native';
+
+
 
 const BookingHistory = ({route}) => {
   const {item} = route.params;
@@ -64,6 +67,22 @@ const BookingHistory = ({route}) => {
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Hủy lịch hẹn</Text>
       </TouchableOpacity>
+      <LottieView
+        source={{
+          uri: 'https://assets10.lottiefiles.com/packages/lf20_fxvz0c.json',
+        }}
+        autoPlay
+        loop={false}
+        speed={0.5}
+        style={{
+          width: 300,
+          height: 300,
+          alignSelf: 'center',
+        }}
+      /> 
+      <Text style={{textAlign: 'center', marginTop: 20, fontSize: 20, fontWeight: 'bold', color: '#f44336'}}>
+        Hãy đến đúng giờ khám bệnh nhé!
+      </Text>
     </View>
   );
 };
@@ -73,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 20,
-    paddingVertical: 40,
+    paddingVertical: 20,
   },
   doctor: {
     flexDirection: 'row',

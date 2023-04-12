@@ -1,7 +1,7 @@
 import moment from 'moment/moment';
 import React, { useContext, useState } from 'react';
-import {getPatientIdByUserIdApi} from "../services/userService"
-import {handleBookingApi} from "../services/bookingService"
+import { getPatientIdByUserIdApi } from "../services/userService"
+import { handleBookingApi } from "../services/bookingService"
 import {
   StyleSheet,
   Text,
@@ -13,14 +13,18 @@ import {
   ScrollView,
 } from 'react-native';
 import { Authorization } from '../context/Authorization';
+import LottieView from 'lottie-react-native';
+import formatCurrencyVND from '../component/formatCurrencyVND';
 //Cần Edit
-const BookingForm = ({route,navigation}) => {
-  const {doctor,date,time} = route.params;
+
+
+const BookingForm = ({ route, navigation }) => {
+  const { doctor, date, time } = route.params;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [reason, setReason] = useState('');
-  const {user} = useContext(Authorization);
+  const { user } = useContext(Authorization);
 
 
   let getData = async () => {
@@ -28,141 +32,97 @@ const BookingForm = ({route,navigation}) => {
 
 
   const handleSubmit = () => {
-    handleBookingSuccess(date,time,reason);
+    handleBookingSuccess(date, time, reason);
 
-    
+
   }
-  let handleBookingSuccess = async (date,timeType,reason) => {
-    let patientIdData = await getPatientIdByUserIdApi(handleAuth().id);
-    
-    let data = {
-        doctorId: doctor.id,
-        patientId: user.id,
-        date: moment(date).format("YYYY-MM-DD"),
-        timeType: time.timeType, //coi lại
-        reason: reason
-    };
-    let res = await handleBookingApi(data);
+  let handleBookingSuccess = async (date, timeType, reason) => {
     navigation.navigate("BookingSuccess");
-}
+  }
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        
-        <Image source={
-          { uri: doctor.userData.image }
-        } style={styles.doctorImage} />
-        {/* <Text style={styles.BookingTitle} className="bg-lime-400 rounded-lg pl-2 pr-2">
-          Đặt lịch hẹn với bác sĩ 
-        </Text> */}
-        <Text className=" text-xl font-bold text-gray-800">
-        {doctor.userData.lastName + ' ' + doctor.userData.firstName}
-        </Text>
-        <View>
-        <Text className=" text-lg font-bold text-gray-800
+
+        <View style={styles.doctorInfo}>
+
+          <Image source={
+            { uri: doctor.userData.image }
+          } style={styles.doctorImage} />
+          <View
+            className="pl-5"
+          >
+            <Text className=" text-xl font-bold text-gray-800">
+              {doctor.userData.lastName + ' ' + doctor.userData.firstName}
+            </Text>
+            <Text className=" text-sm font-bold text-gray-800
         ">
-          Chuyên khoa {doctor.specialtyData.name}
-        </Text>
+              Chuyên khoa {doctor.specialtyData.name}
+            </Text>
+          </View>
+
         </View>
-        <Text
-        className=" text-lg font-bold text-gray-800"
-        style={{
-          fontSize: 20,
-          fontWeight: 'bold',
-          color: 'black',
-          marginTop: 10,
-          marginBottom: 10,
-          backgroundColor: 'orange',
-          borderRadius: 5,
-          paddingVertical: 5,
-          paddingHorizontal: 10,
-          color: 'white',
-        }}
-        >
-          Thời gian: {time.timeTypeData.valueVi}  {moment(date).format('DD/MM/YYYY')}
-        </Text>
-        <Text style={{
-          fontSize: 20,
-        }}>
-          Giá: {doctor.priceId}
-        </Text>
-        
+
+
         <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-         
-        }}
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
         >
-        <Text
-        style={{
-          fontSize: 20,
-          fontWeight: 'bold',
-          color: 'black',
-          marginTop: 10,
-          marginBottom: 10,
-        }}
-        >Họ và tên: </Text>
-        <Text
-        style={{
-          fontSize: 20,
-          fontWeight: 'bold',
-          color: 'black',
-          marginTop: 10,
-          marginBottom: 10,
-        }}
-        >{user.lastName + ' ' + user.firstName}</Text>
+          <LottieView
+            source={require('../../assets/lottie/Time.json')}
+            autoPlay
+            loop={true}
+            speed={0.5}
+            style={{ width: 50, height: 50 }}
+          />
+          <Text
+            className=" text-lg font-bold text-gray-800"
+            style={{
+              fontSize: 12,
+              fontWeight: 'bold',
+              color: 'black',
+              marginTop: 10,
+              marginBottom: 10,
+
+              borderRadius: 5,
+              paddingVertical: 5,
+              paddingHorizontal: 10,
+
+            }}
+          >
+            Thời gian: {time.timeTypeData.valueVi}
+
+            {moment(date).format('DD/MM/YYYY')}
+          </Text>
         </View>
         <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
         >
-        <Text
-        style={{
-          fontSize: 20,
-          fontWeight: 'bold',
-          color: 'black',
-          marginTop: 10,
-          marginBottom: 10,
-        }}
-        >Email: </Text>
-        <Text
-        style={{
-          fontSize: 20,
-          fontWeight: 'bold',
-          color: 'black',
-          marginTop: 10,
-          marginBottom: 10,
-        }}
-        >{user.email}</Text>
-        </View>
-        <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-        >
-        <Text
-        style={{
-          fontSize: 20,
-          fontWeight: 'bold',
-          color: 'black',
-          marginTop: 10,
-          marginBottom: 10,
-        }}
-        >Số điện thoại: </Text>
-        <Text
-        style={{
-          fontSize: 20,
-          fontWeight: 'bold',
-          color: 'black',
-          marginTop: 10,
-          marginBottom: 10,
-        }}
-        >{user.phone}</Text>
+          <LottieView
+            source={require('../../assets/lottie/Price.json')}
+            autoPlay
+            loop={true}
+            speed={0.5}
+            style={{ width: 50, height: 50 }}
+          />
+          <Text style={{
+            fontSize: 12,
+            fontWeight: 'bold',
+            color: 'black',
+            marginTop: 10,
+            marginBottom: 10,
+            borderRadius: 5,
+            paddingVertical: 5,
+            paddingHorizontal: 10,
+          }}>
+            Giá: {doctor.priceId}
+
+          </Text>
         </View>
         <Text style={styles.label}>LÍ DO KHÁM</Text>
         <TextInput
@@ -172,11 +132,24 @@ const BookingForm = ({route,navigation}) => {
           placeholder="Nhập lí do khám"
           multiline
           textAlignVertical="top"
-          numberOfLines={4}
+          numberOfLines={3}
         />
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>ĐẶT LỊCH KHÁM</Text>
         </TouchableOpacity>
+        <LottieView
+          source={{
+            uri: 'https://assets10.lottiefiles.com/packages/lf20_qq6gioyz.json',
+          }}
+          autoPlay
+          loop={false}
+          speed={0.5}
+          style={{
+            width: 250,
+            height: 250,
+            alignSelf: 'center',
+          }}
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -185,7 +158,13 @@ const BookingForm = ({route,navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(234, 223, 249)',
+    backgroundColor: 'white',
+  },
+  doctorInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+
   },
   scrollContainer: {
     alignItems: 'center',
@@ -242,8 +221,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#007bff',
     borderRadius: 5,
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginTop: 20,
+    paddingHorizontal: 10,
   },
   buttonText: {
     color: '#fff',

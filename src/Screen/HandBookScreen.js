@@ -5,6 +5,8 @@ import { Avatar } from 'react-native-paper';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import axios from '../axios';
 import moment from 'moment/moment';
+import LottieView from 'lottie-react-native';
+
 
 function HandBookScreen(
   {

@@ -4,22 +4,28 @@ import moment from 'moment';
 import { Picker } from '@react-native-picker/picker';
 import axios from '../axios';
 import Rating from './components/Rating';
+import LottieView from 'lottie-react-native';
+import Loading from './Loading';
 
 // import StarRating from 'react-native-star-rating';
 const Doctor = ({route,navigation}) => {
   const [arrDate, setArrDate] = useState([]);
     const [arrSchedule, setArrSchedule] = useState([]);
-    const [date, setDate] = useState(moment((new Date()).setDate((new Date()).getDate())).format("YYYY-MM-DD")); 
+    const [date, setDate] = useState(moment((new Date()).setDate((new Date()).getDate())).add(1, 'days').format("YYYY-MM-DD")); 
     const [review, setReview] = useState([]);
     const [rateDoctor, setRateDoctor] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     const {doctor} = route.params;
     useEffect(() => {
       (async () => {
         let getSchedule = await axios.get('/api/get-schedule-doctor-by-date?doctorId='+doctor.id+'&date='+date)
-      setArrSchedule(getSchedule.data);   
+       setArrSchedule(getSchedule.data); 
+       setLoading(false); 
+    
       
       })();
+       
   }, [date]);
 
   let getData = async () => {
@@ -41,8 +47,8 @@ const Doctor = ({route,navigation}) => {
 },[] );
 let getSelectDate = () => {
     let arrDate = [];
-    let date = new Date();
-    let newDate = new Date(date.setDate(date.getDate() + 1));
+    let dates = new Date();
+    let newDate = new Date(dates.setDate(dates.getDate() + 1));
     for (let i = 0; i < 7; i++) {
         let object = {};   
             object.label = capitalizeFirstLetter(moment(newDate).add(i, 'days').locale('vi').format('dddd - DD/MM'))
@@ -181,12 +187,19 @@ let capitalizeFirstLetter = (string) => {
       >
         {arrDate && arrDate.map((item, index) => {
           return (
-            <Picker.Item label={item.label} value={item.value} key={item.id} />
+            <Picker.Item label={item.label} value={item.value} key={item.id} 
+           
+            />
           );
         })}
               </Picker>
+              {
+                loading && (
+                  <Loading />
+                ) 
+              }
         {
-          arrSchedule.length > 0 ? (
+          !loading && arrSchedule.length > 0 ? (
             <View>
               <Text style={
                 {
@@ -202,11 +215,37 @@ let capitalizeFirstLetter = (string) => {
           renderItem={renderScheduleItem}
           keyExtractor={(item) => item.id}
           horizontal={true}
-          showsHorizontalScrollIndicator={true}
+          showsHorizontalScrollIndicator={false}
         />
             </View>
           ) : (
-            <Text>Không có lịch khám</Text>
+            // https://assets4.lottiefiles.com/private_files/lf30_3X1oGR.json
+
+            <View style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              display: loading ? 'none' : 'flex'
+    
+            }}>
+              <LottieView
+        source={require('../../assets/lottie/NoneSchedule.json')}
+        autoPlay
+        loop={false}
+        speed={0.5}
+        style={{
+          width: 250,
+          height: 150,
+          alignSelf: 'center',
+        }}
+      /> 
+      <Text style={{
+        textAlign: 'center',
+        fontSize: 14,
+        fontWeight: 'bold'
+      }}>
+        Không có lịch khám nào trong ngày này
+      </Text>
+            </View>
           )
         }
         
@@ -280,7 +319,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
-    paddingBottom: 60,
+    paddingBottom: 20,
   
   },
   scheduleTitle: {

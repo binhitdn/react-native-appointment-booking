@@ -10,9 +10,7 @@ const BookingSuccess = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <Image source={
-        {
-            uri: 'https://cdn.dribbble.com/users/129972/screenshots/3964116/75_smile.gif'
-        }
+        require('../../assets/imgapp/succcess.gif')
       } style={styles.image} />
       <Text style={styles.title}>
         Cuộc hẹn của bạn đã được đặt
