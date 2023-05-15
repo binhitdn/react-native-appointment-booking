@@ -6,8 +6,11 @@ import ListDoctor from "./ListDoctor";
 import { TouchableOpacity } from "react-native";
 import SliderService from "./SliderService";
 import { StyleSheet } from "react-native";
+import { Provider as PaperProvider, DarkTheme } from 'react-native-paper';
+
 
 export default function HomeScreen({ navigation }) {
+
     let [specialty, setSpecialty] = useState([]);
     let [doctors, setDoctors] = useState([]);
     const colorScheme = useColorScheme();
@@ -66,6 +69,13 @@ export default function HomeScreen({ navigation }) {
                  </Text>
                 </TouchableOpacity>
             </View> */}
+                <TouchableOpacity onPress={() => navigation.navigate("Noti")}
+                    className="flex flex-row justify-center items-center"
+                >
+                    <Text>
+                        Test
+                    </Text>
+                </TouchableOpacity>
                 <SliderService doctors={doctors} navigation={navigation} />
 
                 <View>

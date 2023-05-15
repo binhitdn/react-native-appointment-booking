@@ -1,61 +1,47 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
 import { Picker } from '@react-native-picker/picker';
 import axios from '../axios';
 import { Authorization } from '../context/Authorization';
+import * as ImagePicker from 'expo-image-picker';
 
 
 const PersonalInfo = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [gender, setGender] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [avatar, setAvatar] = useState("https://i.pinimg.com/474x/3d/b7/9e/3db79e59b9052890ea1ffbef0f3970cc.jpg");
   const { user } = useContext(Authorization);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [gender, setGender] = useState(user.gender);
+  const [phoneNumber, setPhoneNumber] = useState(user.phone);
+  const [email, setEmail] = useState(user.email);
+  const [address, setAddress] = useState(user.address);
+  const [avatar, setAvatar] = useState(user.image);
 
 
-  let getData = async() => {
-    let data = await axios.get('/api/get-all-users?id=' + user.id);
-    setFirstName(data.data.firstName);
-    setLastName(data.data.lastName);
-    setGender(data.data.gender);
-    setPhoneNumber(data.data.phoneNumber);
-    setEmail(data.data.email);
-    setAddress(data.data.address);
-    setAvatar(data.data.image);
-    
+
+  let getData = async () => {
+
   }
   useEffect(() => {
     getData();
   }, []);
-  const handleUpdateAvatar = () => {
-    const options = {
-      title: 'Select Avatar',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
+  const handleUpdateAvatar = async () => {
+    // const result = await ImagePicker.launchImageLibraryAsync({
+    //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //   allowsEditing: true,
+    //   aspect: [1, 1],
+    //   quality: 1,
+    // });
 
-    ImagePicker.showImagePicker(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        setAvatar(response.uri);
-      }
-    });
+    if (!result.cancelled) {
+      setAvatar(result.uri);
+    }
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleUpdateAvatar}>
         <Image
-          source={avatar ? { uri: avatar } : {uri: avatar} }
+          source={avatar ? { uri: avatar } : { uri: avatar }}
           style={styles.avatar}
         />
       </TouchableOpacity>
@@ -83,22 +69,22 @@ const PersonalInfo = () => {
         <View style={styles.flex}>
           <Text style={styles.label}>Giới tính</Text>
           <Picker
-        selectedValue={gender}
-        style={styles.input}
-        onValueChange={
-          (e) => {
-            setGender(e)
-            
-          }
-        }
-      >
-        
+            selectedValue={gender}
+            style={styles.input}
+            onValueChange={
+              (e) => {
+                setGender(e)
+
+              }
+            }
+          >
+
             <Picker.Item label="Nam" value="Nam" />
             <Picker.Item label="Nữ" value="Nữ" />
-         
-              </Picker>
-          
-          
+
+          </Picker>
+
+
         </View>
         <View style={styles.flex}>
           <Text style={styles.label}>Số điện thoại</Text>
@@ -120,10 +106,10 @@ const PersonalInfo = () => {
             placeholder="Email"
           />
         </View>
-        
+
       </View>
       <View style={styles.row}>
-      <View style={styles.column}>
+        <View style={styles.column}>
           <Text style={styles.label}>Địa chỉ</Text>
           <TextInput
             style={styles.input}

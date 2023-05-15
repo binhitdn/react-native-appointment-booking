@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 const BookingSuccess = ({ navigation, route }) => {
-  let appointmentDate = "12/12/2021";
-    let appointmentTime = "12:00 PM";
-    let appointmentDoctor = "Nguyễn Văn A";
-    let appointmentAddress = "Hòa Khánh Nam, Liên Chiểu, Đà Nẵng";
 
   return (
     <View style={styles.container}>
@@ -20,16 +16,16 @@ const BookingSuccess = ({ navigation, route }) => {
         tại {appointmentAddress} để được khám bệnh bởi bác sĩ {appointmentDoctor}
       </Text> */}
       <Text
-        style={ styles.text }
-        >
-            Hãy chờ sự xác nhận từ bác sĩ nhé!
-        </Text>
+        style={styles.text}
+      >
+        Hãy chờ sự xác nhận từ bác sĩ nhé!
+      </Text>
       <Text style={styles.text}>
         Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi
-    </Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
+      </Text>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Schedule')}>
         <Text style={styles.buttonText}>
-            Trở về trang chủ
+          Trở về trang chủ
         </Text>
       </TouchableOpacity>
     </View>
@@ -60,7 +56,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 10,
     color: '#333',
-    
+
   },
   button: {
     backgroundColor: '#2196F3',

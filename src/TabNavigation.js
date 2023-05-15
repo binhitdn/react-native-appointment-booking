@@ -8,28 +8,43 @@ import ScheduleScreen from './Screen/ScheduleScreen';
 import SpecialtiesScreen from './Screen/SpecialtiesScreen';
 import SvgUri, { Circle } from 'react-native-svg';
 import { Image } from 'react-native';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useLayoutEffect } from 'react';
+
 
 const Tab = createMaterialBottomTabNavigator();
 
-function MyTabs() {
+function MyTabs(
+
+) {
+
+
+
+
+
+
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
       activeColor="green"
       inactiveColor="#493f8"
-      barStyle={{ 
+
+      barStyle={{
         backgroundColor: '#fff',
         margin: 0,
         borderRadius: 0,
-        borderTopWidth: 1, 
+        borderTopWidth: 1,
         borderTopColor: '#e0e0e0',
-        
+
       }}
       tabBarLabelStyle={{
         fontFamily: 'OpenSans-Bold',
         fontSize: 10,
       }}
-    
+
       tabBarOptions={{ tabBarLabelStyle: { fontSize: 12, fontFamily: 'OpenSans-Bold' } }}
     >
       <Tab.Screen
@@ -37,44 +52,52 @@ function MyTabs() {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            
-            <Image source={require('../assets/BottomBar/home.png')} style={{width: 30, height: 30}} />
+
+            <Image source={require('../assets/BottomBar/home.png')} style={{ width: 30, height: 30 }} />
           ),
           tabBarLabel: 'Trang chủ',
+          unmountOnBlur: true,
         }}
+
+        key="Home"
       />
       <Tab.Screen
         name="Specialties"
         component={SpecialtiesScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            
-            <Image source={require('../assets/BottomBar/hospital.png')} style={{width: 30, height: 30}} />
+
+            <Image source={require('../assets/BottomBar/hospital.png')} style={{ width: 30, height: 30 }} />
           ),
           tabBarLabel: 'Chuyên khoa',
         }}
+        key="Specialties"
       />
       <Tab.Screen
         name="HandBook"
         component={HandBookScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            
-            <Image source={require('../assets/BottomBar/book.png')} style={{width: 30, height: 30}} />
+
+            <Image source={require('../assets/BottomBar/book.png')} style={{ width: 30, height: 30 }} />
           ),
           tabBarLabel: 'Cẩm nang',
         }}
+        key="HandBook"
       />
       <Tab.Screen
         name="Schedule"
         component={ScheduleScreen}
+
         options={{
           tabBarIcon: ({ color }) => (
             // <MaterialCommunityIcons name="calendar" color={color} size={30} />
-            <Image source={require('../assets/BottomBar/clipboard.png')} style={{width: 30, height: 30}} />
+            <Image source={require('../assets/BottomBar/clipboard.png')} style={{ width: 30, height: 30 }} />
           ),
           tabBarLabel: 'Lịch khám',
+
         }}
+
       />
       <Tab.Screen
         name="Profile"
@@ -82,13 +105,16 @@ function MyTabs() {
         options={{
           tabBarIcon: ({ color }) => (
             // <MaterialCommunityIcons name="account" color={color} size={30} />
-            <Image source={require('../assets/BottomBar/profile.png')} style={{width: 30, height: 30}} />
+            <Image source={require('../assets/BottomBar/profile.png')} style={{ width: 30, height: 30 }} />
           ),
           tabBarLabel: 'Tài khoản',
         }}
+        key="Profile"
       />
     </Tab.Navigator>
   );
+
 }
+
 
 export default MyTabs;

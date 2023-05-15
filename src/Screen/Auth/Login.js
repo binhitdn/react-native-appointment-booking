@@ -17,7 +17,7 @@ export default function Login({ navigation }) {
       password: password
     })
     if (res.errCode === 0) {
-      Alert.alert("Login success", res.message);
+      Alert.alert("Đăng nhập thành công", res.message);
       await AsyncStorage.setItem('token',
         res.token);
       storage.save({
@@ -66,10 +66,10 @@ export default function Login({ navigation }) {
       <Image source={backImage} style={styles.backImage} />
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
-        <Text style={styles.title}>Login</Text>
+        <Text style={styles.title}>Đăng nhập</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter email"
+          placeholder="Nhập email"
           autoCapitalize="none"
           keyboardType="email-address"
           textContentType="emailAddress"
@@ -79,7 +79,7 @@ export default function Login({ navigation }) {
         />
         <TextInput
           style={styles.input}
-          placeholder="Enter password"
+          placeholder="Nhập mật khẩu"
           autoCapitalize="none"
           autoCorrect={false}
           secureTextEntry={true}
@@ -91,9 +91,9 @@ export default function Login({ navigation }) {
           <Text style={{ fontWeight: 'bold', color: '#fff', fontSize: 18 }}> Log In</Text>
         </TouchableOpacity>
         <View style={{ marginTop: 20, flexDirection: 'row', alignItems: 'center', alignSelf: 'center' }}>
-          <Text style={{ color: 'gray', fontWeight: '600', fontSize: 14 }}>Don't have an account? </Text>
+          <Text style={{ color: 'gray', fontWeight: '600', fontSize: 14 }}>Chưa có tài khoản? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text style={{ color: '#f57c00', fontWeight: '600', fontSize: 14 }}> Sign Up</Text>
+            <Text style={{ color: '#f57c00', fontWeight: '600', fontSize: 14 }}> Đăng kí !!!</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

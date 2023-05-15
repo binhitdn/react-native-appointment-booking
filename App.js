@@ -29,6 +29,13 @@ import ReviewSuccess from './src/Screen/ReviewSuccess';
 import LottieView from 'lottie-react-native';
 import { Provider } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
+import DoctorDetailScreen from './src/Screen/DoctorDetailScreen';
+import ChatDoctor from './src/Screen/ChatDoctor';
+import ScheduleScreen from './src/Screen/ScheduleScreen';
+import BookingConfirm from './src/Screen/BookingConfirm';
+import * as Notifications from 'expo-notifications';
+
+
 
 
 
@@ -48,12 +55,26 @@ export default function App() {
 
       (async () => {
         await getUserWithToken();
+        console.log("User: ", user);
       })();
 
     } else {
 
     }
   }, [token])
+  async function requestUserPermission() {
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Bạn cần cho phép thông báo để sử dụng tính năng này.');
+      return;
+    }
+  }
+
+
+  useEffect(() => {
+    requestUserPermission();
+
+  }, [])
 
 
 
@@ -227,6 +248,12 @@ export default function App() {
                   options={({ route }) => ({ title: route.params.name })}
                 />
                 <Stack.Screen
+                  name="BookingConfirm"
+
+                  component={BookingConfirm}
+                  options={({ route }) => ({ title: "Lịch hẹn đã xác nhận" })}
+                />
+                <Stack.Screen
                   name="BookingSuccess"
                   component={BookingSuccess}
                   options={
@@ -254,6 +281,43 @@ export default function App() {
                   }}
 
                 />
+                <Stack.Screen
+                  name="DoctorDetailScreen"
+                  component={DoctorDetailScreen}
+                  options={({ route }) => ({ title: route.params.name })}
+                />
+
+                <Stack.Screen
+                  name="ChatDoctor"
+                  component={ChatDoctor}
+                  options={
+
+                    ({ route, navigation }) => ({
+                      title: route.params.name,
+                      header: () => (
+                        <View>
+                          <View style={{
+                            flexDirection: "row", alignItems: "center", justifyContent: "flex-start", padding: 10, backgroundColor: "white",
+                            borderBottomWidth: 1,
+                            borderBottomColor: "#ddd"
+                          }}>
+                            <Image
+                              source={{ uri: route.params.doctorData.userData.image }}
+                              style={{ width: 50, height: 50, borderRadius: 50 }}
+                            />
+                            <View style={{ flexDirection: "column", marginLeft: 10 }}>
+                              <Text style={{ fontSize: 18, fontWeight: "bold" }}>{route.params.doctorData.userData.lastName + " " + route.params.doctorData.userData.firstName}</Text>
+                              <Text style={{ fontSize: 14, color: "gray" }}>
+                                Thường trả lời trong vài phút
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+                      )
+                    })
+                  }
+                />
+
 
 
               </Stack.Navigator>

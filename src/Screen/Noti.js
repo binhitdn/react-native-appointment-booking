@@ -65,6 +65,7 @@ async function schedulePushNotification() {
       data: { data: 'goes here' },
     },
     trigger: { seconds: 2 },
+
   });
 }
 

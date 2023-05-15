@@ -11,6 +11,7 @@ import {
   Image,
   KeyboardAvoidingView,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { Authorization } from '../context/Authorization';
 import LottieView from 'lottie-react-native';
@@ -32,11 +33,52 @@ const BookingForm = ({ route, navigation }) => {
 
 
   const handleSubmit = () => {
-    handleBookingSuccess(date, time, reason);
+    Alert.alert(
+      "Xác nhận đặt lịch",
+      "Bạn có chắc chắn muốn đặt lịch?",
+      [
+        {
+          text: "Hủy",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Đồng ý", onPress: async () => {
+            handleBookingSuccess(date, time, reason);
+          }
+        }
+
+      ]);
+
+
+
+
+
+
 
 
   }
   let handleBookingSuccess = async (date, timeType, reason) => {
+
+    let patientIdData = await getPatientIdByUserIdApi(user.id);
+
+    let data = {
+      doctorId: doctor.id,
+      patientId: patientIdData.data,
+      date: moment(date).format("YYYY-MM-DD"),
+      timeType: timeType.timeTypeData.keyMap,
+      reason: reason
+
+    };
+    console.log("Success: ", data);
+    try {
+      let res = await handleBookingApi(data);
+      console.log("res: ", res);
+    } catch (error) {
+      console.log(error)
+    }
+
+
     navigation.navigate("BookingSuccess");
   }
 
@@ -92,7 +134,7 @@ const BookingForm = ({ route, navigation }) => {
 
             }}
           >
-            Thời gian: {time.timeTypeData.valueVi}
+            Thời gian: {time.timeTypeData.valueVi} -
 
             {moment(date).format('DD/MM/YYYY')}
           </Text>

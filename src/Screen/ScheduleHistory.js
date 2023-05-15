@@ -1,23 +1,46 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Avatar } from 'react-native-paper'
 import moment from 'moment'
+import { v4 as uuidv4 } from 'uuid';
+import 'react-native-get-random-values';
+
 
 export default function ScheduleHistory(
     {
         navigation, item
     }
 ) {
+
     return (
         <TouchableOpacity className="flex flex-row justify-between items-center mh-2 border-b	 border-gray-300 w-96 rounded-sm overflow-hidden p-2 bg-white shadow-md"
-            key={item.id}
+            key={
+                uuidv4()
+            }
             onPress={() => {
-                navigation.navigate("BookingHistory",
-                    {
-                        item: item
-                    })
+                if (item.statusData.keyMap == "S1") {
+                    navigation.navigate("BookingHistory",
+                        {
+                            item: item
+                        })
+                } else if (item.statusData.keyMap == "S2") {
+                    navigation.navigate("BookingConfirm",
+                        {
+                            item: item
+                        })
+                } else if (item.statusData.keyMap == "S3") {
+                    navigation.navigate("BookingConfirm",
+                        {
+                            item: item
+                        })
+                }
+
             }
             }
+            style={{
+                width: "100%",
+                paddingHorizontal: 50,
+            }}
 
         >
             <View className="flex flex-row justify-center items-center">
@@ -69,6 +92,6 @@ export default function ScheduleHistory(
                 </Text>
             </View>
 
-        </TouchableOpacity>
+        </TouchableOpacity >
     )
 }

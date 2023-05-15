@@ -3,6 +3,8 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { handleEditReviewApi, handleCreateNewReviewApi } from '../services/doctorService';
+import { Ionicons } from '@expo/vector-icons';
+
 
 
 export default function DoctorReview({
@@ -22,6 +24,14 @@ export default function DoctorReview({
   const [isRating, setIsRating] = useState(false);
   const item = route.params.item;
 
+  const colors = {
+    orange: '#FFBA5A',
+    dark: '#1E1F20',
+    primary: 'rgb(152, 255, 73)',
+    text: '#fff',
+    subText: '#FEF9F8',
+  };
+
   let handleSaveReview = async () => {
     let data = {
       bookingId: id,
@@ -29,6 +39,7 @@ export default function DoctorReview({
       review: comment,
     }
     let a = await handleCreateNewReviewApi(data);
+
 
 
 
@@ -41,6 +52,16 @@ export default function DoctorReview({
       review: comment,
     }
     let a = await handleEditReviewApi(data);
+
+    console.log(
+      "data" + JSON.stringify(data)
+    );
+    console.log(
+      "a" + JSON.stringify(a)
+    );
+    console.log(
+      "rating" + JSON.stringify(rating)
+    );
 
 
   }
@@ -63,6 +84,7 @@ export default function DoctorReview({
 
   }, [item]);
 
+
   const handleSubmit = () => {
     if (isRating) {
       handleEditReview();
@@ -70,6 +92,9 @@ export default function DoctorReview({
       handleSaveReview();
     }
     navigation.navigate('ReviewSuccess');
+  }
+  const formatCurrency = (amount) => {
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
   return (
@@ -83,62 +108,116 @@ export default function DoctorReview({
           <Text style={styles.doctorName}>
             {item.doctorData.userData.lastName + " " + item.doctorData.userData.firstName}
           </Text>
-          <Text style={styles.doctorSpecialty}>Chuyên Khoa
-            {" " + item.doctorData.specialtyData.name}
-          </Text>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <Ionicons name="ios-star" size={20} color="#FFD700" />
+            <Text style={styles.doctorSpecialty}>
+              Chuyên Khoa
+              {" " + item.doctorData.specialtyData.name}
+            </Text>
+          </View>
         </View>
       </View>
       <View>
         <View style={{
           flexDirection: 'row',
         }}>
-          <Text style={
-            {
-              fontSize: 13,
-              fontWeight: 'bold',
-              color: 'black',
-              marginRight: 10,
-            }
-          }>Giá khám: {
-              item.doctorData.priceId
-            }
-            VNĐ</Text>
-          <Text style={
-            {
-              fontSize: 13,
-              fontWeight: 'bold',
-              color: 'black',
-              marginRight: 10,
-            }
-          }>
-            {
-              item.timeTypeData2.valueVi + "  " + moment(item.date).format("DD-MM-YYYY")
-            }
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+            <Ionicons name="ios-cash" size={20} color={colors.orange} />
+            <Text style={
+              {
+                fontSize: 13,
+                fontWeight: 'bold',
+                color: 'black',
+                marginRight: 10,
+              }
+            }>Giá khám: {
+                formatCurrency(item.doctorData.priceId)
+              }
+              VNĐ</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <Ionicons name="ios-time" size={20} color={colors.orange} />
+            <Text style={
+              {
+                fontSize: 13,
+                fontWeight: 'bold',
+                color: 'black',
+                marginRight: 10,
+              }
+            }>
+              {
+                item.timeTypeData2.valueVi + "  " + moment(item.date).format("DD-MM-YYYY")
+              }
 
 
 
-          </Text>
+            </Text>
+          </View>
         </View>
 
-        <View>
-          <Text style={styles.label}>Lí do khám:</Text>
-          <Text style={styles.value}>
-            {item.reason}
-          </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <Ionicons name="ios-chatbubbles" size={20} color={colors.orange} />
+          <View>
+            <Text style={styles.label}>Lí do khám:</Text>
+            <Text style={styles.value}>
+              {item.reason}
+            </Text>
+          </View>
         </View>
-        <View>
-          <Text style={styles.label}>Chuẩn đoán:</Text>
-          <Text style={styles.value}>
-            {item.bookingfinishData.diagnose}
-          </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <Ionicons name="ios-chatbubbles" size={20} color={colors.orange} />
+          <View>
+            <Text style={styles.label}>Chuẩn đoán:</Text>
+            <Text style={styles.value}>
+              {item.bookingfinishData.diagnose}
+            </Text>
+          </View>
         </View>
-        <View>
-          <Text style={styles.label}>Đơn thuốc đề xuất:</Text>
-          <Text style={styles.value}>
-            {item.bookingfinishData.medicine}
-          </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <Ionicons name="ios-chatbubbles" size={20} color={colors.orange} />
+          <View>
+            <Text style={styles.label}>Đơn thuốc đề xuất:</Text>
+            <Text style={styles.value}>
+              {item.bookingfinishData.medicine}
+            </Text>
+          </View>
         </View>
-        <View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <Ionicons name="ios-chatbubbles" size={20} color={colors.orange} />
           <Text style={styles.label}>Lời khuyên:</Text>
           <Text style={styles.value}>
             {item.bookingfinishData.note}

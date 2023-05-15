@@ -1,26 +1,51 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import React, { useEffect } from 'react';
+import { ScrollView } from 'react-native';
+import { useWindowDimensions } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import RenderHtml from 'react-native-render-html';
 
-const DoctorDetailScreen = () => {
+
+const DoctorDetailScreen = ({
+  route
+}) => {
+  const { width } = useWindowDimensions();
+  let doctor = route.params.doctor;
+  useEffect(() => {
+    console.log(doctor);
+  }, []);
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={{
-          uri: 'https://via.placeholder.com/150',
-        }}
-      />
-      <View style={styles.infoContainer}>
-        <Text style={styles.name}>Dr. John Doe</Text>
-        <Text style={styles.specialty}>Cardiologist</Text>
-        <Text style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod
-          euismod nisi, non faucibus nibh vestibulum ut. Sed sed mi euismod,
-          volutpat libero eu, tincidunt felis. Integer vitae venenatis nisi.
-        </Text>
-        <Text style={styles.contact}>Contact: 123-456-7890</Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: doctor.userData.image,
+          }}
+        />
+        <View style={styles.infoContainer}>
+          <Text style={styles.name}>
+            {doctor.userData.lastName} {doctor.userData.firstName}
+          </Text>
+          <Text style={styles.specialty}>
+            {doctor.specialtyData.name}
+          </Text>
+          <Text style={styles.contact}>
+            Điện thoại: {doctor.userData.phone}
+          </Text>
+          <Text style={styles.contact}>
+            Địa chỉ: {doctor.userData.address}
+          </Text>
+          <View style={{ marginTop: 16 }}>
+            <RenderHtml
+              contentWidth={width}
+              source={{ html: doctor.contentHTML }}
+            />
+
+
+          </View>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

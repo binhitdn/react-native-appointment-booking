@@ -1,48 +1,37 @@
 import { Image } from '@rneui/base';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import LottieView from 'lottie-react-native';
+import { handleChangeStatusBookingApi } from '../services/bookingService';
 
 
 
-const BookingHistory = ({route}) => {
-  const {item} = route.params;
-  
-  const [doctor, setDoctor] = useState({
-    name: 'Nguyễn Văn A',
-    specialization: 'Chuyên khoa nội tiết',
-    avatar: "https://i.pinimg.com/474x/3d/b7/9e/3db79e59b9052890ea1ffbef0f3970cc.jpg",
-  });
-  
+const BookingHistory = ({ route, navigation }) => {
+  const { item } = route.params;
 
-  
-  
 
-  const [date, setDate] = useState('27/02/2023');
-  const [time, setTime] = useState('9:00 AM');
-  const [location, setLocation] = useState('Bệnh viện Đa khoa TPHCM');
- 
+
 
   return (
     <View style={styles.container}>
       <View style={styles.doctor}>
         <View style={styles.avatarContainer}>
           <Image source={
-            {uri: item.doctorData.userData.image}
+            { uri: item.doctorData.userData.image }
           } style={styles.avatar} />
         </View>
         <View style={styles.doctorDetails}>
           <Text style={styles.doctorName}>
-                {
-                  item.doctorData.userData.lastName + " " + item.doctorData.userData.firstName
-                }  
+            {
+              item.doctorData.userData.lastName + " " + item.doctorData.userData.firstName
+            }
           </Text>
           <Text style={styles.doctorSpecialization}>
             Chuyên khoa:
-                {
-                  item.doctorData.specialtyData.name
-                }
+            {
+              item.doctorData.specialtyData.name
+            }
           </Text>
         </View>
       </View>
@@ -64,7 +53,30 @@ const BookingHistory = ({route}) => {
           {item.doctorData.addressClinic}
         </Text>
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button}
+        onPress={() =>
+          Alert.alert(
+            "Hủy lịch hẹn",
+            "Bạn có chắc chắn muốn hủy lịch hẹn này không?",
+            [
+              {
+                text: "Hủy",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              {
+                text: "Đồng ý", onPress: () => {
+                  (async () => {
+                    await handleChangeStatusBookingApi(item.id, "S4");
+                    navigation.navigate("Home");
+                  })();
+                }
+              }
+            ],
+            { cancelable: false }
+          )
+        }
+      >
         <Text style={styles.buttonText}>Hủy lịch hẹn</Text>
       </TouchableOpacity>
       <LottieView
@@ -72,17 +84,28 @@ const BookingHistory = ({route}) => {
           uri: 'https://assets10.lottiefiles.com/packages/lf20_fxvz0c.json',
         }}
         autoPlay
-        loop={false}
+        loop={true}
         speed={0.5}
         style={{
           width: 300,
           height: 300,
           alignSelf: 'center',
         }}
-      /> 
-      <Text style={{textAlign: 'center', marginTop: 20, fontSize: 20, fontWeight: 'bold', color: '#f44336'}}>
-        Hãy đến đúng giờ khám bệnh nhé!
+      />
+      <Text style={{ textAlign: 'center', marginTop: 20, fontSize: 20, fontWeight: 'bold', color: '#f44336' }}>
+        Hãy chờ đợi bác sĩ duyệt lịch hẹn của bạn
       </Text>
+      <TouchableOpacity style={styles.chat}
+        onPress={() => navigation.navigate("ChatDoctor", {
+          name: "Chat với bác sĩ",
+          doctorData: item.doctorData,
+        })}
+
+      >
+        {/* 
+         */}
+        <Text>Chat với bác sĩ</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -144,6 +167,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  chat: {
+    backgroundColor: 'blue',
+    color: 'white',
+    fontWeight: 'bold',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+
 });
 
 export default BookingHistory;
